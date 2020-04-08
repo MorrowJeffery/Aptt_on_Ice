@@ -1,31 +1,31 @@
-const sgMail = require('@sendgrid/mail');
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-const msg = {
-    to: 'test@example.com',
-    from: 'test@example.com',
-    subject: 'Sending with Twilio SendGrid is Fun',
-    text: 'and easy to do anywhere, even with Node.js',
-    html: '<strong>and easy to do anywhere, even with Node.js</strong>',
-};
-//ES6
-sgMail
-    .send(msg)
-    .then(() => {}, error => {
-        console.error(error);
+const { mailerpass } = require("./env.js")
 
-        if (error.response) {
-            console.error(error.response.body)
+module.exports = function(email, datetime, instructor) {
+
+
+
+    const nodemailer = require('nodemailer');
+
+    const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: 'apptonice@gmail.com',
+            pass: mailerpass
         }
     });
-//ES8
-(async() => {
-    try {
-        await sgMail.send(msg);
-    } catch (error) {
-        console.error(error);
 
-        if (error.response) {
-            console.error(error.response.body)
-        }
+    const mailOptions = {
+        from: 'apptonice@gmail.com',
+        to: email,
+        subject: 'Appointment on ICE',
+        text: `Your appointment on ${datetime} with ${instructor} has been set`
     }
-})();
+
+    transporter.sendMail(mailOptions, function(error, info) {
+        if (error) {
+            console.log(error);
+        } else {
+            console.log('Email sent: ' + info.response);
+        }
+    })
+}
