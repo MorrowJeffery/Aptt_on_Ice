@@ -28,4 +28,14 @@ module.exports = function(app) {
     res.sendFile(path.join(__dirname, "../public/members.html"));
   });
 
+  //This route gives the user the page for booking an appointment
+  //we will need to adjust this once we have made the handlebar adjustments
+  app.get("/scheduleAppoitment", isAuthenticated, function(req,res) {
+    res.sendFile(path.join(__dirname, "../public/schedule.html"))
+  });
+
+  //route for showing any appointments currently booked
+  app.get("/currentAppointments", isAuthenticated, function(req,res) {
+    res.sendFile(path.join(__dirname, "../public/appointments.html"))
+  })
 };
