@@ -1,5 +1,5 @@
 (function() {
-	// Schedule Template - by CodyHouse.co
+	// Schedule Template - by CodyHouse.com
 	function ScheduleTemplate( element ) {
 		this.element = element;
 		this.timelineItems = this.element.getElementsByClassName('cd-schedule__timeline')[0].getElementsByTagName('li');
