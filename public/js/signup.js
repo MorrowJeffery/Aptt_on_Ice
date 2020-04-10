@@ -5,9 +5,10 @@ $(document).ready(function() {
   var passwordInput = $("input#password-input");
   var first_nameInput = $("input#first_name-input");
   var last_nameInput = $("input#last_name-input");
-
+  
   // When the signup button is clicked, we validate the email and password are not blank
   signUpForm.on("submit", function(event) {
+    console.log('working');
     event.preventDefault();
     var userData = {
       email: emailInput.val().trim(),
@@ -38,7 +39,7 @@ $(document).ready(function() {
       last_name: last_name
     })
       .then(function(data) {
-        window.location.replace("/members");
+        res.render("members");
         // If there's an error, handle it by throwing up a bootstrap alert
       })
       .catch(handleLoginErr);

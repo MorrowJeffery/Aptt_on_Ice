@@ -1,11 +1,5 @@
 node_modules
 config.env
-<<<<<<< HEAD
-test.js
-env.js
-config.js
-=======
 env.js
 test.js
 config\config.json
->>>>>>> master
