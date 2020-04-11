@@ -1,6 +1,5 @@
 node_modules
-config.env
+config\config.json
 env.js
 test.js
-config\config.json
 .env
