@@ -1,4 +1,4 @@
-// Requiring our models and passport as we've configured it
+const { v4: uuidv4 } = require("uuid");
 var db = require("../models");
 var passport = require("../config/passport");
 
@@ -71,11 +71,19 @@ async function viewAllUserReservations(db, req) {
 
   return values;
 }
+async function createTimeSlot(db, req) {
+  let { Start_Time, End_Time, Id } = req;
+  let sesh_id = uuidv4();
+  db.reservations.create({
+    start_Time: Start_Time,
+    end_Time: End_Time,
+    instructorId: Id,
+    session_ID: sesh_id
+  });
+}
 
 module.exports = function(app) {
-  // Using the passport.authenticate middleware with our local strategy.
-  // If the user has valid login credentials, send them to the members page.
-  // Otherwise the user will be sent an error
+  // route for logging in a user
   app.post("/api/login", passport.authenticate("local"), function(req, res) {
     // Sending back a password, even a hashed password, isn't a good idea
     res.json({
@@ -84,9 +92,7 @@ module.exports = function(app) {
     });
   });
 
-  // Route for signing up a user. The user's password is automatically hashed and stored securely thanks to
-  // how we configured our Sequelize User Model. If the user is created successfully, proceed to log the user in,
-  // otherwise send back an error
+  // Route for signing up a user.
   app.post("/api/signup", function(req, res) {
     db.users
       .create({
