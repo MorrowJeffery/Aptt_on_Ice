@@ -2,6 +2,41 @@
 var db = require("../models");
 var passport = require("../config/passport");
 
+async function viewAllReservations(db) {
+  let results;
+  try {
+    results = await db.reservations.findAll({
+      include: [
+        {
+          model: db.users
+        },
+        {
+          model: db.users,
+          as: "instructor"
+        }
+      ]
+    });
+  } catch (err) {
+    console.log("Something went sideways", err);
+  }
+
+  let values = [];
+  results.forEach(res => {
+    values.push({
+      id: res.id,
+      start: res.start_Time,
+      end: res.end_Time,
+      instructor: res.instructor.first_name + " " + res.instructor.last_name,
+      customer: res.user.first_name + " " + res.user.last_name,
+      email: res.user.email,
+      status: res.status,
+      reservation_number: res.session_ID
+    });
+  });
+
+  return values;
+}
+
 module.exports = function(app) {
   // Using the passport.authenticate middleware with our local strategy.
   // If the user has valid login credentials, send them to the members page.
@@ -20,14 +55,16 @@ module.exports = function(app) {
   // how we configured our Sequelize User Model. If the user is created successfully, proceed to log the user in,
   // otherwise send back an error
   app.post("/api/signup", function(req, res) {
-    db.users.create({
-      email: req.body.email,
-      password: req.body.password,
-      first_name: req.body.first_name,
-      last_name: req.body.last_name
-    })
+    db.users
+      .create({
+        email: req.body.email,
+        password: req.body.password,
+        first_name: req.body.first_name,
+        last_name: req.body.last_name
+      })
       .then(function() {
         res.redirect(307, "/api/login");
+        res.render("login");
       })
       .catch(function(err) {
         res.status(401).json(err);
@@ -44,18 +81,30 @@ module.exports = function(app) {
   app.get("/api/user_data", function(req, res) {
     if (!req.user) {
       // The user is not logged in, send back an empty object
+      console.log("this");
       res.json({});
     } else {
       // Otherwise send back the user's email and id
       // Sending back a password, even a hashed password, isn't a good idea
       res.json(
-        //  Reservation.viewAllReservations()
         {
         email: req.user.email,
         id: req.user.id,
         first_name: req.user.first_name,
         last_name: req.user.last_name
       });
+      //  data = viewAllReservations();
+
+      const values = viewAllReservations(db);
+      values.then(data => {
+        console.table(data);
+        res.json(data);
+      });
+
+      //   {
+      //   email: req.user.email,
+      //   id: req.user.id
+      // }
     }
   });
 };
