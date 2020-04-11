@@ -3,3 +3,4 @@ config.env
 env.js
 test.js
 config\config.json
+.env
