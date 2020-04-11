@@ -1,5 +1,7 @@
 node_modules
-config\config.json
 env.js
 test.js
 .env
+.eslint.json
+config\config.json
+.travis.yml
