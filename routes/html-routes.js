@@ -8,7 +8,6 @@ module.exports = function(app) {
   app.get("/", function(req, res) {
     // If the user already has an account send them to the members page
     if (req.user) {
-      // res.redirect("/index");
       return res.redirect("/members");
     }
     res.render("signup");
@@ -25,11 +24,24 @@ module.exports = function(app) {
   // Here we've add our isAuthenticated middleware to this route.
   // If a user who is not logged in tries to access this route they will be redirected to the signup page
   app.get("/members", isAuthenticated, function(req, res) {
+<<<<<<< HEAD
     res.render("members",{});
+=======
+    res.render("members", 
+    {
+      memberName: req.user.first_name
+    })
+>>>>>>> 632ec0706a336a5b1ebee766a364b90aad446819
   });
 
-  // Calendar route
-  app.get("/calendar", isAuthenticated, function(req, res) {
-    res.render("calendar", req.user);
+  //This route gives the user the page for booking an appointment
+  //we will need to adjust this once we have made the handlebar adjustments
+  app.get("/make-reservation", isAuthenticated, function(req,res) {
+    res.render("calendar");
   });
+
+  //route for showing any appointments currently booked
+  app.get("/reservations", isAuthenticated, function(req,res) {
+    res.render("reservations");
+  })
 };
