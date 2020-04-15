@@ -37,7 +37,7 @@
 
                 <ul>
                    {{#each reservations}}
-                        {{#if Monday}}
+                        {{#if monday}}
                             {{> available}}
                         {{/if}}
                     {{/each}}
@@ -49,9 +49,9 @@
 
                 <ul>
                     {{#each reservations}}
-                        
+                            {{#if tuesday}}
                             {{> available}}
-                        
+                            {{/if}}
                     {{/each}}
                 </ul>
             </li>
@@ -61,7 +61,7 @@
 
                 <ul>
                     {{#each reservations}}
-                        {{#if Wednesday}}
+                        {{#if wednesday}}
                             {{> available}}
                         {{/if}}
                     {{/each}}
@@ -73,9 +73,9 @@
 
                 <ul>
                     {{#each reservations}}
-                       
+                            {{#if thursday}}
                             {{> available}}
-                        
+                            {{/if}}
                     {{/each}}
                 </ul>
             </li>
@@ -85,7 +85,7 @@
 
                 <ul>
                     {{#each reservations}}
-                        {{#if Friday}}
+                        {{#if friday}}
                             {{> available}}
                         {{/if}}
                     {{/each}}   

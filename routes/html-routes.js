@@ -84,7 +84,7 @@ module.exports = function(app) {
             }
 
         })
-        res.render("caltest", reservations)
+        res.render("caltest", { reservations })
 
 
     })

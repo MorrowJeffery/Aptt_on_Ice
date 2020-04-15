@@ -1,7 +1,7 @@
 {
     "development": {
-        "username": "Mastadon",
-        "password": "pp95eMLJ",
+        "username": "root",
+        "password": "sorrow647",
         "database": "on_ice_db",
         "host": "127.0.0.1",
         "dialect": "mysql"
