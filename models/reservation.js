@@ -26,7 +26,8 @@ module.exports = function(sequelize, DataTypes) {
     },
     status: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      defaultValue: "Open"
     },
     session_ID: {
       type: DataTypes.STRING,
