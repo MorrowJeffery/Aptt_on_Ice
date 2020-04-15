@@ -1,5 +1,8 @@
 // Requiring path to so we can use relative routes to our HTML files
 var path = require("path");
+var routeFunctions = require("./route-functions");
+var db = require("../models");
+
 
 // Requiring our custom middleware for checking if a user is logged in
 var isAuthenticated = require("../config/middleware/isAuthenticated");
@@ -24,10 +27,9 @@ module.exports = function(app) {
   // Here we've add our isAuthenticated middleware to this route.
   // If a user who is not logged in tries to access this route they will be redirected to the signup page
   app.get("/members", isAuthenticated, function(req, res) {
-    res.render("members", 
-    {
-      memberName: req.user.first_name
-    })
+    
+    res.render("members", {data}})
+    // {userName: req.User.user_name}
   });
 
   //This route gives the user the page for booking an appointment
@@ -38,6 +40,5 @@ module.exports = function(app) {
 
   //route for showing any appointments currently booked
   app.get("/reservations", isAuthenticated, function(req,res) {
-    res.render("reservations");
+    res.render("reservations", viewAllReservations(db));
   })
-};
