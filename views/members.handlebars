@@ -12,7 +12,7 @@
   <div class="container">
     <div class="row">
       <div class="col-md-6 col-md-offset-3">
-        <h2>Welcome <span>{{memberName}}</span></h2>
+        <h2>Welcome <span></span></h2>
       </div>
     </div>
     <div class="row"></div>
@@ -26,7 +26,9 @@
       </div>
       <div class="row">
         <div class="col-md-6 col-md-offset-3">
+         {{#each data}}
           {{> reserved}}
+           {{/each}}
         </div>
       </div>
   </div>
