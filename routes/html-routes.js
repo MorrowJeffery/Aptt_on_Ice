@@ -2,6 +2,7 @@
 var path = require("path");
 var Jeeves = require("../routes/Jeeves");
 var db = require("../models");
+const moment = require("moment");
 
 // Requiring our custom middleware for checking if a user is logged in
 var isAuthenticated = require("../config/middleware/isAuthenticated");
@@ -34,24 +35,22 @@ module.exports = function(app) {
     Reservations.then((data) => {
       res.render("members", { data });
     });
-    app.get("/make-reservation", isAuthenticated, function(req, res) {
-      let Reservations = Jeeves.viewAllReservations(db);
-      Reservations.then((data) => {
-        res.render("calendar", { data });
-      });
-    });
   });
-  app.get("/calendar", function(req, res) {
+  //   app.get("/make-reservation", isAuthenticated, function(req, res) {
+  //     let Reservations = Jeeves.viewAllReservations(db);
+  //     Reservations.then((data) => {
+  //       res.render("calendar", { data });
+  //     });
+  //   });
+  // });
+  app.get("/make-reservation", isAuthenticated, function(req, res) {
     let Reservations = Jeeves.viewAllReservations(db, req);
     Reservations.then((data) => {
-      function trimDate(reservation) {
-        console.log(moment(reservation.start + "+8:00").format("HH"));
-        console.log(reservation.start.toLocaleTimeString());
-        reservation.start = moment(reservation.start + "+8:00")
+      function trimDate(data) {
+        data.start_Time = moment(data.start + "+8:00")
           .format("HH")
           .slice(0, 4);
-
-        reservation.end = reservation.end.toString().slice(16, 21);
+        data.end_Time = data.end.toString().slice(16, 21);
       }
       const week = {
         sunday: [],
