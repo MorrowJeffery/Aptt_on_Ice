@@ -44,20 +44,20 @@ const Jeeves = {
     stat = "Booked";
     // entire time slot
     if (resStart_Time === Start_Time && req.resEnd_Time === End_Time) {
-      updateTimeSlot(db, Start_Time, End_Time, session_ID, stat, userId);
+      Jeeves.updateTimeSlot(db, Start_Time, End_Time, session_ID, stat, userId);
     } else if (resStart_Time === Start_Time && resEnd_Time !== End_Time) {
       //   same start different end
-      createTimeSlot(db, resEnd_Time, End_Time, instructorID);
-      updateTimeSlot(db, Start_Time, resEnd_Time, session_ID, stat, userId);
+      Jeeves.createTimeSlot(db, resEnd_Time, End_Time, instructorID);
+      Jeeves.updateTimeSlot(db, Start_Time, resEnd_Time, session_ID, stat, userId);
     } else if (resStart_Time !== Start_Time && resEnd_Time === End_Time) {
       //   same end different start
-      createTimeSlot(db, start_Time, resStart_Time, instructorID);
-      updateTimeSlot(db, resStart_Time, End_Time, session_ID, stat, userId);
+      Jeeves.createTimeSlot(db, Start_Time, resStart_Time, instructorID);
+      Jeeves.updateTimeSlot(db, resStart_Time, End_Time, session_ID, stat, userId);
     } else {
       // different start and end
-      createTimeSlot(db, start_Time, resStart_Time, instructorID);
-      createTimeSlot(db, resEnd_Time, End_Time, instructorID);
-      updateTimeSlot(db, resStart_Time, resEnd_Time, session_ID, stat, userId);
+      Jeeves.createTimeSlot(db, start_Time, resStart_Time, instructorID);
+      Jeeves.createTimeSlot(db, resEnd_Time, End_Time, instructorID);
+      Jeeves.updateTimeSlot(db, resStart_Time, resEnd_Time, session_ID, stat, userId);
     }
   },
   cancelReservation: async function(db, req) {
@@ -103,7 +103,8 @@ const Jeeves = {
         customer: res.user.first_name + " " + res.user.last_name,
         email: res.user.email,
         status: res.status,
-        reservation_number: res.session_ID
+        reservation_number: res.session_ID,
+        instructorID: res.instructorId
       });
     });
 

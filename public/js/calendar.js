@@ -363,9 +363,16 @@
 		};
 	}
 }());
+
 //start dropdown code
 let dropedDown = false;
-
+let reservationDay = "";
+let reservationZone = "";
+let availibleStart = "";
+let availibleEnd = "";
+let userID = "";
+let Instructor = "";
+let session = "";
 
 function genDropDowns() {
 	const dropdown1 = $("<div>").addClass("dropdown");
@@ -441,34 +448,63 @@ function genDropDowns() {
 		}
 	}
 
-	$('#newReservationBtn').on("click", function() { 
-		alert();
-		 var Start_Time = "";
-		 var End_Time = ""; 
-		 var userId = "";
-		 var instructorID = ""; 
-		 var session_ID = ""; 
+	$(document).click( function() { 
+	if ($(event.target).attr("id") != "newReservationBtn") {return}
+		 var Start_Time = availibleStart;
+		 var End_Time = availibleEnd; 
+		 var userId = userID;
+		 var instructorID = userID + 1; 
+		 var session_ID = session; 
 		 var unformatedstart = $('#LT').text();
 		 if (unformatedstart.length == 4) {var resStart_Time = ('0' + unformatedstart)}
 		 else {var resStart_Time = unformatedstart} 
 		 var resEnd_Time = moment().hour(resStart_Time.slice(0,2)).minute(resStart_Time.slice(-2)).add($('#LOL').text(),'minutes').format("HH:mm");
+		var resStart_Time = reservationDay + resStart_Time + reservationZone;
+		resEnd_Time = reservationDay + resEnd_Time + reservationZone;
+		//console.log(Start_Time,End_Time,userId,instructorID,session_ID, resStart_Time,resEnd_Time);
+		$.post("/api/make-reservation", {
+			Start_Time: Start_Time,
+			End_Time: End_Time,
+			userId: userId,
+			instructorID: instructorID,
+			session_ID: session_ID,
+			resStart_Time: resStart_Time,
+			resEnd_Time: resEnd_Time
+
+		  })
+			.then(function(data) {
+			  window.location.href = "/members";
+			})
+
 		})
 
-	$('.dropdown-toggle').dropdown();
-	$('.times').on("click", function(event) {
-		alert();
-		$('#LOL').text($(event.target).text());
-	})
-	$('.timeslots').on("click", function(event) {
-		alert();
-		$('#LT').text($(event.target).text());
-	})
+		$(document).ready(function(){
+			
+		$('.cd-schedule__event').on("click", function(event) {
+			if (dropedDown == false) { genDropDowns(); dropedDown = true; }
+			$("#startTimeList").empty();
 
-$('.cd-schedule__event').on("click", function(event) {
-	if (dropedDown == false) { genDropDowns(); dropedDown = true; }
-	$("#startTimeList").empty();
-	genTimeBlocks("9:00", "12:00");
-})
-$('document').click(function(event) {
-	console.log(event.target.tagName);
-})
+			genTimeBlocks($(event.target).attr("data-start").slice(16,21), $(event.target).attr("data-end").slice(16,21));
+			availibleStart = $(event.target).attr("data-start");
+			availibleEnd = $(event.target).attr("data-end");
+			reservationDay = $(event.target).attr("data-start").slice(0,16);
+			reservationZone = $(event.target).attr("data-start").slice(21);
+			userID = $(event.target).attr("user-id");
+			session = $(event.target).attr("res-id")
+
+
+		})
+		$(document).click(function(event) {
+			if (event.target.tagName = 'A') {
+				if ($(event.target).attr('class') == "timeslots") {
+					$('#LT').text($(event.target).text());
+				}
+				if ($(event.target).attr('class') == "times") {
+					$('#LOL').text($(event.target).text());
+				}
+			}
+		})
+		});
+
+	$('.dropdown-toggle').dropdown();
+	
