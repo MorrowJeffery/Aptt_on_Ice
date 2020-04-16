@@ -55,7 +55,7 @@ const Jeeves = {
       Jeeves.updateTimeSlot(db, resStart_Time, End_Time, session_ID, stat, userId);
     } else {
       // different start and end
-      Jeeves.createTimeSlot(db, start_Time, resStart_Time, instructorID);
+      Jeeves.createTimeSlot(db, Start_Time, resStart_Time, instructorID);
       Jeeves.createTimeSlot(db, resEnd_Time, End_Time, instructorID);
       Jeeves.updateTimeSlot(db, resStart_Time, resEnd_Time, session_ID, stat, userId);
     }

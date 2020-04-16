@@ -374,6 +374,10 @@ let userID = "";
 let Instructor = "";
 let session = "";
 
+$.get("/api/user_data").then(function(data) {
+	userID = data.id;
+})
+
 function genDropDowns() {
 	const dropdown1 = $("<div>").addClass("dropdown");
 	const dropdown2 = $("<div>").addClass("dropdown");
@@ -425,6 +429,22 @@ function genDropDowns() {
 		}
 	}
 
+	function fixTime(fixme) {
+		var year = fixme.slice(11,15);
+		var month = moment().month(fixme.slice(4,8)).format("M");
+		if (month.length == 1){month = '0' + month}
+		var day = fixme.slice(8,10);
+		var hour = fixme.slice(16,18);
+		var minute = fixme.slice(18,21);
+		var second = fixme.slice(21,24);
+		
+		
+		return(year + '-' + month + '-' + day + 'T' + hour + minute + second + ".000Z");
+
+
+
+	}
+
 	function genTimeBlocks(start, end) {
 		if (start.length == 5) {var starthour = start.slice(0,2)}
 		else {var starthour = start.slice(0,1)}
@@ -450,17 +470,19 @@ function genDropDowns() {
 
 	$(document).click( function() { 
 	if ($(event.target).attr("id") != "newReservationBtn") {return}
-		 var Start_Time = availibleStart;
-		 var End_Time = availibleEnd; 
+		 var Start_Time = fixTime(availibleStart);
+		 var End_Time = fixTime(availibleEnd); 
 		 var userId = userID;
-		 var instructorID = userID; 
+		 var instructorID = Instructor; 
 		 var session_ID = session; 
 		 var unformatedstart = $('#LT').text();
 		 if (unformatedstart.length == 4) {var resStart_Time = ('0' + unformatedstart)}
 		 else {var resStart_Time = unformatedstart} 
 		 var resEnd_Time = moment().hour(resStart_Time.slice(0,2)).minute(resStart_Time.slice(-2)).add($('#LOL').text(),'minutes').format("HH:mm");
 		var resStart_Time = reservationDay + resStart_Time + reservationZone;
+		resStart_Time = fixTime(resStart_Time);
 		resEnd_Time = reservationDay + resEnd_Time + reservationZone;
+		resEnd_Time = fixTime(resEnd_Time);
 		console.log(Start_Time,End_Time,userId,instructorID,session_ID, resStart_Time,resEnd_Time);
 		$.post("/api/make-reservation", {
 			Start_Time: Start_Time,
@@ -483,14 +505,18 @@ function genDropDowns() {
 		$('.cd-schedule__event').on("click", function(event) {
 			if (dropedDown == false) { genDropDowns(); dropedDown = true; }
 			$("#startTimeList").empty();
-
-			genTimeBlocks($(event.target).attr("data-start").slice(16,21), $(event.target).attr("data-end").slice(16,21));
+			$(document).ready(function(){
+				genstart =$(event.target).attr("data-start").slice(16,21);
+				genend = $(event.target).attr("data-end").slice(16,21);
+				genTimeBlocks(genstart,genend );
+			})
+			
 			availibleStart = $(event.target).attr("data-start");
 			availibleEnd = $(event.target).attr("data-end");
 			reservationDay = $(event.target).attr("data-start").slice(0,16);
-			reservationZone = $(event.target).attr("data-start").slice(21);
-			userID = $(event.target).attr("user-id");
-			session = $(event.target).attr("res-id")
+			reservationZone = $(event.target).attr("data-start").slice(21,24);
+			session = $(event.target).attr("data-event").slice(-1);
+			Instructor = $(event.target).attr("data-content");
 
 
 		})
