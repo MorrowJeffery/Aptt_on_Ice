@@ -1,6 +1,7 @@
 var db = require("../models");
 var passport = require("../config/passport");
 const { v4: uuidv4 } = require("uuid");
+const moment = require("moment");
 
 // let req = {
 //   resStart_Time:
@@ -89,24 +90,92 @@ const Jeeves = {
             model: db.users,
             as: "instructor"
           }
-        ]
+        ],
+        order: ["start_time"]
       });
     } catch (err) {
       console.log("Something went sideways", err);
     }
 
     let values = [];
+    // console.log(results);
     results.forEach(res => {
-      values.push({
-        id: res.id,
-        start: res.start_Time,
-        end: res.end_Time,
-        instructor: res.instructor.first_name + " " + res.instructor.last_name,
-        customer: res.user.first_name + " " + res.user.last_name,
-        email: res.user.email,
-        status: res.status,
-        reservation_number: res.session_ID
-      });
+      switch (moment(res.start_time).format("dddd")) {
+        case "Monday":
+          console.log(moment(res.start_time).format("dddd"));
+          values.push({
+            id: res.id,
+            start: res.start_Time,
+            end: res.end_Time,
+            instructor:
+              res.instructor.first_name + " " + res.instructor.last_name,
+            customer: res.user.first_name + " " + res.user.last_name,
+            email: res.user.email,
+            status: res.status,
+            reservation_number: res.session_ID,
+            monday: true
+          });
+        case "Tuesday":
+          //   console.log(res);
+          values.push({
+            id: res.id,
+            start: res.start_Time,
+            end: res.end_Time,
+            instructor:
+              res.instructor.first_name + " " + res.instructor.last_name,
+            customer: res.user.first_name + " " + res.user.last_name,
+            email: res.user.email,
+            status: res.status,
+            reservation_number: res.session_ID,
+            tuesday: true
+          });
+          break;
+        case "Wednesday":
+          //   console.log(res);
+          values.push({
+            id: res.id,
+            start: res.start_Time,
+            end: res.end_Time,
+            instructor:
+              res.instructor.first_name + " " + res.instructor.last_name,
+            customer: res.user.first_name + " " + res.user.last_name,
+            email: res.user.email,
+            status: res.status,
+            reservation_number: res.session_ID,
+            wednesday: true
+          });
+          break;
+        case "Thursday":
+          //   console.log(res);
+          values.push({
+            id: res.id,
+            start: res.start_Time,
+            end: res.end_Time,
+            instructor:
+              res.instructor.first_name + " " + res.instructor.last_name,
+            customer: res.user.first_name + " " + res.user.last_name,
+            email: res.user.email,
+            status: res.status,
+            reservation_number: res.session_ID,
+            thursday: true
+          });
+          break;
+        case "Friday":
+          //   console.log(res);
+          values.push({
+            id: res.id,
+            start: res.start_Time,
+            end: res.end_Time,
+            instructor:
+              res.instructor.first_name + " " + res.instructor.last_name,
+            customer: res.user.first_name + " " + res.user.last_name,
+            email: res.user.email,
+            status: res.status,
+            reservation_number: res.session_ID,
+            friday: true
+          });
+          break;
+      }
     });
 
     return values;
@@ -116,6 +185,7 @@ const Jeeves = {
     try {
       results = await db.reservations.findAll({
         where: { userId: req.user.id },
+        order: ["start_time"],
         include: [
           {
             model: db.users
@@ -132,6 +202,7 @@ const Jeeves = {
 
     let values = [];
     results.forEach(res => {
+      console.log(res);
       values.push({
         id: res.id,
         start: res.start_Time,
@@ -149,3 +220,15 @@ const Jeeves = {
 };
 
 module.exports = Jeeves;
+
+// values.push({
+//     id: res.id,
+//     start: res.start_Time,
+//     end: res.end_Time,
+//     instructor: res.instructor.first_name + " " + res.instructor.last_name,
+//     customer: res.user.first_name + " " + res.user.last_name,
+//     email: res.user.email,
+//     status: res.status,
+//     reservation_number: res.session_ID,
+//     res.monday = true;
+//   });

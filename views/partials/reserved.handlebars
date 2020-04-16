@@ -1,11 +1,16 @@
 
-<ul>
-    <li class="cd-schedule__event">
-        <a data-start="{{start}}" data-end="{{end}}"  data-content="" data-event="event-3" href="#0">
-            <em class="cd-schedule__name">{{customer}},  {{status}}</em>
-        </a>
-    </li>
-</ul>
 
+<div class="card ">
+ 
+  <div class="card-body">
+    <h4 class="card-title">{{customer}}  {{start}} </h4>
+        <p class="card-text" > Start Time:   End Time: {{end}} {{status}}</p>
 
+    <a data-session="{{reservation_number}}" href="/api/cancel"  class="black-text d-flex justify-content-end">
+      <h5> Cancel Reservation <i class="fas fa-angle-double-right"></i></h5>
+    </a>
+
+  </div>
+
+</div>
 
