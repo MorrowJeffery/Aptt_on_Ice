@@ -7,3 +7,4 @@ config.js
 .eslint.json
 config\config.json
 .travis.yml
+config/config.json
