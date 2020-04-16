@@ -43,7 +43,7 @@ $(document).ready(function() {
       last_name: last_name,
     })
       .then(function(data) {
-        res.redirect("/");
+        window.location.href = "/members";
         // If there's an error, handle it by throwing up a bootstrap alert
       })
       .catch(handleLoginErr);

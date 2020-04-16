@@ -44,7 +44,6 @@ module.exports = function(app) {
   app.get("/api/user_data", function(req, res) {
     if (!req.user) {
       // The user is not logged in, send back an empty object
-      console.log("this");
       res.json({});
     } else {
       res.json({
@@ -55,7 +54,7 @@ module.exports = function(app) {
       });
     }
   });
-  app.post("/make-reservation", isAuthenticated, function(req, res) {
+  app.post("/make-reservation", function(req, res) {
     Jeeves.createReservation(db, req);
     Mailer.confirmAppt(req);
   });
