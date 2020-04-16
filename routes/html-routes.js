@@ -30,11 +30,11 @@ module.exports = function(app) {
 
 
             function trimDate(reservation) {
-                console.log(moment(reservation.start + "+8:00").format("HH"))
+                console.log(moment(reservation.start + "+6:00").format("HH:mm"))
                 console.log(reservation.start.toLocaleTimeString())
-                reservation.start = moment(reservation.start + "+8:00").format("HH").slice(0, 4)
+                reservation.start = moment(reservation.start + "+10:00").format("HH:mm")
 
-                reservation.end = reservation.end.toString().slice(16, 21)
+                reservation.end = moment(reservation.end + "+10:00").format("HH:mm")
             }
             const week = {
                 sunday: [],
