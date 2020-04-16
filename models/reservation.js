@@ -5,45 +5,45 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       unique: false,
       validate: {
-        isDate: true
-      }
+        isDate: true,
+      },
     },
     end_Time: {
       type: DataTypes.DATE,
       allowNull: false,
       unique: false,
       validate: {
-        isDate: true
-      }
+        isDate: true,
+      },
     },
     instructorId: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
     },
     userId: {
       type: DataTypes.INTEGER,
-      allowNull: true
+      allowNull: true,
     },
     status: {
       type: DataTypes.STRING,
       allowNull: false,
-      defaultValue: "Open"
+      defaultValue: "Open",
     },
     session_ID: {
       type: DataTypes.STRING,
-      allowNull: true
-    }
+      allowNull: true,
+    },
   });
 
   reservations.associate = function(models) {
     reservations.belongsTo(models.users, {
       foreignKey: {
-        allowNull: false
-      }
+        allowNull: false,
+      },
     });
     reservations.belongsTo(models.users, {
       as: "instructor",
-      foreignKey: "id"
+      foreignKey: "instructorid",
     });
   };
   return reservations;

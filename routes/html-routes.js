@@ -36,15 +36,9 @@ module.exports = function(app) {
       res.render("members", { data });
     });
   });
-  //   app.get("/make-reservation", isAuthenticated, function(req, res) {
-  //     let Reservations = Jeeves.viewAllReservations(db);
-  //     Reservations.then((data) => {
-  //       res.render("calendar", { data });
-  //     });
-  //   });
-  // });
   app.get("/make-reservation", isAuthenticated, function(req, res) {
-    let Reservations = Jeeves.viewAllReservations(db, req);
+    let Reservations = Jeeves.viewAllReservations(db);
+    console.log(Reservations);
     Reservations.then((data) => {
       function trimDate(data) {
         data.start_Time = moment(data.start + "+8:00")
@@ -93,7 +87,6 @@ module.exports = function(app) {
             break;
         }
       });
-      console.log(week);
       res.render("calendar", week);
     });
   });

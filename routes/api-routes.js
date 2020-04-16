@@ -54,7 +54,24 @@ module.exports = function(app) {
       });
     }
   });
-  app.post("/make-reservation", function(req, res) {
+  app.post("/api/make-reservation", function(req, res) {
+    Jeeves.createReservation(db, req);
+    Mailer.confirmAppt(req);
+  });
+  app.get("/api/user_data", function(req, res) {
+    if (!req.user) {
+      // The user is not logged in, send back an empty object
+      res.json({});
+    } else {
+      res.json({
+        email: req.user.email,
+        id: req.user.id,
+        first_name: req.user.first_name,
+        last_name: req.user.last_name,
+      });
+    }
+  });
+  app.post("/cancel", function(req, res) {
     Jeeves.createReservation(db, req);
     Mailer.confirmAppt(req);
   });
