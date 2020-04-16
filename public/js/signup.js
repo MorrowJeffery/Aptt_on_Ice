@@ -39,7 +39,7 @@ $(document).ready(function() {
       last_name: last_name
     })
       .then(function(data) {
-        res.render("members");
+        window.location.replace("/members");
         // If there's an error, handle it by throwing up a bootstrap alert
       })
       .catch(handleLoginErr);

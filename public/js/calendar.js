@@ -41,7 +41,7 @@
 		if( mq == 'desktop' && !loaded ) {
 			Util.addClass(this.element, 'js-schedule-loaded');
 			this.placeEvents();
-			modalOpen && this.checkEventModal(modalOpen);
+			//modalOpen && this.checkEventModal(modalOpen);
 		} else if( mq == 'mobile' && loaded) {
 			//in this case you are on a mobile version (first load or resize from desktop)
 			Util.removeClass(this.element, 'cd-schedule--loading js-schedule-loaded');
@@ -83,13 +83,13 @@
 
 	ScheduleTemplate.prototype.initEvents = function() {
 		var self = this;
-		for(var i = 0; i < this.singleEvents.length; i++) {
-			// open modal when user selects an event
-			this.singleEvents[i].addEventListener('click', function(event){
-				event.preventDefault();
-				if(!self.animating) self.openModal(this.getElementsByTagName('a')[0]);
-			});
-		}
+		// for(var i = 0; i < this.singleEvents.length; i++) {
+		// 	// open modal when user selects an event
+		// 	this.singleEvents[i].addEventListener('click', function(event){
+		// 		event.preventDefault();
+		// 		if(!self.animating) self.openModal(this.getElementsByTagName('a')[0]);
+		// 	});
+		// }
 		//close modal window
 		this.modalClose.addEventListener('click', function(event){
 			event.preventDefault();
@@ -305,12 +305,6 @@
     httpRequest.send();
 	};
 
-	ScheduleTemplate.prototype.getEventContent = function(string) {
-		// reset the loaded event content so that it can be inserted in the modal
-		var div = document.createElement('div');
-		div.innerHTML = string.trim();
-		return div.getElementsByClassName('cd-schedule-modal__event-info')[0].innerHTML;
-	};
 
 	ScheduleTemplate.prototype.animationFallback = function() {
 		if( !this.supportAnimation ) { // fallback for browsers not supporting transitions
@@ -369,3 +363,112 @@
 		};
 	}
 }());
+//start dropdown code
+let dropedDown = false;
+
+
+function genDropDowns() {
+	const dropdown1 = $("<div>").addClass("dropdown");
+	const dropdown2 = $("<div>").addClass("dropdown");
+	const button1 = $("<button>").addClass("btn btn-primary dropdown-toggle").attr("type", "button").attr("data-toggle", "dropdown").attr("id", "LT").text("Lesson Time");
+	const button2 = $("<button>").addClass("btn btn-primary dropdown-toggle").attr("type", "button").attr("data-toggle", "dropdown").attr("id", "LOL").text("Length Of Lesson");
+	const span1 = $("<span>").addClass("caret");
+	const span2 = $("<span>").addClass("caret");
+	const ul1 = $("<ul>").addClass("dropdown-menu").attr("id", "startTimeList");
+	const ul2 = $("<ul>").addClass("dropdown-menu");
+	const a1 = $("<a>").text("15").addClass("times");
+	const a2 = $("<a>").text("30").addClass("times");
+	const a3 = $("<a>").text("45").addClass("times");
+	const a4 = $("<a>").text("60").addClass("times");
+	const li1 = $("<li>").append(a1);
+	const li2 = $("<li>").append(a2);
+	const li3 = $("<li>").append(a3);
+	const li4 = $("<li>").append(a4);
+
+	  $('#dropdownholder').append(dropdown1);
+	  $('#dropdownholder').append(dropdown2);
+	  dropdown1.append(button1, span1, ul1);
+	  dropdown2.append(button2, span2, ul2);
+	  ul2.append(li1, li2, li3, li4);
+
+	  const subButton = $("<button>").attr("id", "newReservationBtn").attr("type", "button").text("Submit");
+	  $('#dropdownholder').append(subButton);
+	}
+
+	function genTimeBlocks(start, end) {
+		if (start.length == 5) {var starthour = start.slice(0,2)}
+		else {var starthour = start.slice(0,1)}
+		var startminutes = start.slice(-2);
+
+		var hourTracker = parseInt(starthour);
+		var minuteTracker = parseInt(startminutes); 
+		for (; time != end ; minuteTracker += 15 ) 
+		{
+		  if (minuteTracker == 60) {
+			  minuteTracker = 0;
+			  hourTracker++;
+		  }
+		  if (minuteTracker == 0) {var time = hourTracker + ":" + "00"}
+		  else {var time = hourTracker + ":" + minuteTracker;}
+		  if (time == end) {break;}
+		  var timeli = $("<li>");
+		  var timea = $("<a>").text(time).addClass("timeslots");
+		  timeli.append(timea);
+		  $('#startTimeList').append($(timeli));
+		}
+	}
+
+	function genTimeBlocks(start, end) {
+		if (start.length == 5) {var starthour = start.slice(0,2)}
+		else {var starthour = start.slice(0,1)}
+		var startminutes = start.slice(-2);
+
+		var hourTracker = parseInt(starthour);
+		var minuteTracker = parseInt(startminutes); 
+		for (; time != end ; minuteTracker += 15 ) 
+		{
+		  if (minuteTracker == 60) {
+			  minuteTracker = 0;
+			  hourTracker++;
+		  }
+		  if (minuteTracker == 0) {var time = hourTracker + ":" + "00"}
+		  else {var time = hourTracker + ":" + minuteTracker;}
+		  if (time == end) {break;}
+		  var timeli = $("<li>");
+		  var timea = $("<a>").text(time).addClass("timeslots");
+		  timeli.append(timea);
+		  $('#startTimeList').append($(timeli));
+		}
+	}
+
+	$('#newReservationBtn').on("click", function() { 
+		alert();
+		 var Start_Time = "";
+		 var End_Time = ""; 
+		 var userId = "";
+		 var instructorID = ""; 
+		 var session_ID = ""; 
+		 var unformatedstart = $('#LT').text();
+		 if (unformatedstart.length == 4) {var resStart_Time = ('0' + unformatedstart)}
+		 else {var resStart_Time = unformatedstart} 
+		 var resEnd_Time = moment().hour(resStart_Time.slice(0,2)).minute(resStart_Time.slice(-2)).add($('#LOL').text(),'minutes').format("HH:mm");
+		})
+
+	$('.dropdown-toggle').dropdown();
+	$('.times').on("click", function(event) {
+		alert();
+		$('#LOL').text($(event.target).text());
+	})
+	$('.timeslots').on("click", function(event) {
+		alert();
+		$('#LT').text($(event.target).text());
+	})
+
+$('.cd-schedule__event').on("click", function(event) {
+	if (dropedDown == false) { genDropDowns(); dropedDown = true; }
+	$("#startTimeList").empty();
+	genTimeBlocks("9:00", "12:00");
+})
+$('document').click(function(event) {
+	console.log(event.target.tagName);
+})

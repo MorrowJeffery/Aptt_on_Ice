@@ -28,8 +28,8 @@ module.exports = function(app) {
         last_name: req.body.last_name
       })
       .then(function() {
-        res.redirect(307, "/api/login");
-        res.render("login");
+        // res.redirect(307, "/api/login");
+        // res.render('members');
       })
       .catch(function(err) {
         res.status(401).json(err);
