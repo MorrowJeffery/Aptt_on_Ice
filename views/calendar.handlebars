@@ -1,4 +1,7 @@
-<link rel="stylesheet" href="/css/calendar.css">
+<script>
+    document.getElementsByTagName("html")[0].className += " js";
+</script>
+<link rel="stylesheet" href="css/calendar.css">
 <header class="cd-main-header text-center flex flex-column flex-center">
 
     <h1 class="text-xl">ON ICE</h1>
@@ -32,14 +35,21 @@
 
     <div class="cd-schedule__events">
         <ul>
+          <li class="cd-schedule__group">
+            <div class="cd-schedule__top-info"><span>Sunday</span></div>
+
+            <ul>
+                {{#each sunday}} 
+                {{> available}} 
+                {{/each}}
+            </ul>
+        </li>
             <li class="cd-schedule__group">
                 <div class="cd-schedule__top-info"><span>Monday</span></div>
 
                 <ul>
-                   {{#each data}}
-                        {{#if monday}}
-                            {{> available}}
-                        {{/if}}
+                    {{#each monday}} 
+                    {{> available}} 
                     {{/each}}
                 </ul>
             </li>
@@ -48,10 +58,8 @@
                 <div class="cd-schedule__top-info"><span>Tuesday</span></div>
 
                 <ul>
-                    {{#each data}}
-                            {{#if tuesday}}
-                            {{> available}}
-                            {{/if}}
+                    {{#each tuesday}} 
+                    {{> available}} 
                     {{/each}}
                 </ul>
             </li>
@@ -60,10 +68,8 @@
                 <div class="cd-schedule__top-info"><span>Wednesday</span></div>
 
                 <ul>
-                    {{#each data}}
-                        {{#if wednesday}}
-                            {{> available}}
-                        {{/if}}
+                    {{#each wednesday}} 
+                    {{> available}} 
                     {{/each}}
                 </ul>
             </li>
@@ -72,10 +78,8 @@
                 <div class="cd-schedule__top-info"><span>Thursday</span></div>
 
                 <ul>
-                    {{#each data}}
-                            {{#if thursday}}
-                            {{> available}}
-                            {{/if}}
+                    {{#each thursday}} 
+                    {{> available}} 
                     {{/each}}
                 </ul>
             </li>
@@ -84,13 +88,20 @@
                 <div class="cd-schedule__top-info"><span>Friday</span></div>
 
                 <ul>
-                    {{#each data}}
-                        {{#if friday}}
-                            {{> available}}
-                        {{/if}}
-                    {{/each}}   
+                    {{#each friday}} 
+                    {{> available}} 
+                    {{/each}}
                 </ul>
             </li>
+            <li class="cd-schedule__group">
+              <div class="cd-schedule__top-info"><span>Saturday</span></div>
+
+              <ul>
+                  {{#each saturday}} 
+                  {{> available}} 
+                  {{/each}}
+              </ul>
+          </li>
         </ul>
     </div>
 

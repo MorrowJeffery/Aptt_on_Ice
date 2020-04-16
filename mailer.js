@@ -4,7 +4,6 @@ const db = require("./models");
 const Mailer = {
   accountCreate: function(req) {
     let email = req.body.email;
-    console.log(email);
     let name = `${req.body.first_name} ${req.body.last_name}`;
 
     const nodemailer = require("nodemailer");
