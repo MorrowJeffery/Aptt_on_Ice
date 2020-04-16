@@ -3,6 +3,7 @@ config.env
 test.js
 env.js
 config.js
-env.js
-test.js
+.env
+.eslint.json
 config\config.json
+.travis.yml
