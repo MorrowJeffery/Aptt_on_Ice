@@ -6,7 +6,6 @@ const moment = require("moment");
 
 // Requiring our custom middleware for checking if a user is logged in
 var isAuthenticated = require("../config/middleware/isAuthenticated");
-const moment = require("moment")
 
 module.exports = function(app) {
   app.get("/", function(req, res) {

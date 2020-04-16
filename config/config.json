@@ -2,7 +2,7 @@
     "development": {
       "username": "root",
       "password": "Maybe$diddentdo1t",
-      "database": "aptt_on_ice_db",
+      "database": "on_ice_db",
       "host": "127.0.0.1",
       "dialect": "mysql"
     },
