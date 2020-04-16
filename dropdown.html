@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/lumen/bootstrap.min.css">
+		<title>On Ice</title>
+		<script src="https://code.jquery.com/jquery.js"></script>
+</head>
+	<body>
+		<div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" id="LT">Lesson Time
+            <span class="caret"></span></button>
+            <ul class="dropdown-menu" id="startTimeList">
+
+            </ul>
+          </div>
+
+          <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" id="LOL">Length Of Lesson
+            <span class="caret"></span></button>
+            <ul class="dropdown-menu">
+              <li><a class = "times">15</a></li>
+              <li><a class = "times">30</a></li>
+              <li><a class = "times">45</a></li>
+              <li><a class = "times">60</a></li>
+            </ul>
+          </div>
+        
+          <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+          <script>
+              var starttime = "9:00";
+              var endtime = "12:00";
+
+              function genTimeBlocks(start, end) {
+                  if (start.length == 5) {var starthour = start.slice(0,2)}
+                  else {var starthour = start.slice(0,1)}
+                  var startminutes = start.slice(-2);
+
+                  var hourTracker = parseInt(starthour);
+                  var minuteTracker = parseInt(startminutes); 
+                  for (; time != end ; minuteTracker += 15 ) 
+                  {
+                    if (minuteTracker == 60) {
+                        minuteTracker = 0;
+                        hourTracker++;
+                    }
+                    if (time == end) {}
+                    if (minuteTracker == 0) {var time = hourTracker + ":" + "00"}
+                    else {var time = hourTracker + ":" + minuteTracker;}
+                    var timeli = $("<li>");
+                    var timea = $("<a>").text(time).addClass("timeslots");
+                    timeli.append(timea);
+                    $('#startTimeList').append($(timeli));
+                  }
+              }
+              genTimeBlocks(starttime, endtime);
+
+           $('.dropdown-toggle').dropdown();
+           $('.times').on("click", function(event) {
+               $('#LOL').text($(event.target).text());
+           })
+           $('.timeslots').on("click", function(event) {
+               $('#LT').text($(event.target).text());
+           })
+
+
+          </script>
+	</body>
+</html>

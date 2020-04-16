@@ -1,13 +1,14 @@
 {{!--partial for reservations--}}
 
+{{#each reservation}}
 <ul>
     <li class="cd-schedule__event">
-        <a data-start="{{eventStart}}" data-end="{{eventEnd}}"  data-content="{{eventType}}" data-event="event-3" href="#0">
-            <em class="cd-schedule__name">{{dayoftheweek}} : {{event}}</em>
+        <a data-start="{{start}}" data-end="{{end}}"  data-content="{{eventType}}" data-event="event-3" href="#0">
+            <em class="cd-schedule__name">{{dayoftheweek}} : {{reservation_number}}</em>
         </a>
     </li>
 </ul>
-
+{{/each}}
 
 
 

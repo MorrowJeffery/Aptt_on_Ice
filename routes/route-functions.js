@@ -1,7 +1,9 @@
+var db = require("../models");
+
+
 var path = require("path");
 
-
-async function viewAllReservations(db) {
+  async function viewAllReservations(db) {
     let results;
     try {
       results = await db.reservations.findAll({
@@ -35,3 +37,8 @@ async function viewAllReservations(db) {
   
     return values;
   }
+
+  
+module.exports = {
+  reservations: viewAllReservations(db)
+}
