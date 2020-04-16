@@ -54,7 +54,7 @@ module.exports = function(app) {
       });
     }
   });
-  app.post("/make-reservation", function(req, res) {
+  app.post("/api/make-reservation", function(req, res) {
     Jeeves.createReservation(db, req);
     Mailer.confirmAppt(req);
   });
