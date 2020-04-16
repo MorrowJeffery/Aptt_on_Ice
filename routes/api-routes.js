@@ -1,6 +1,7 @@
 var db = require("../models");
 var passport = require("../config/passport");
 var Jeeves = require("./reservation");
+var Mailer = require("../mailer");
 
 module.exports = function(app) {
   // route for logging in a user
@@ -10,22 +11,23 @@ module.exports = function(app) {
       email: req.user.email,
       id: req.user.id,
       first_name: req.body.first_name,
-      last_name: req.body.last_name
+      last_name: req.body.last_name,
     });
   });
 
   // Route for signing up a user.
   app.post("/api/signup", function(req, res) {
+    let Req = req;
     db.users
       .create({
         email: req.body.email,
         password: req.body.password,
         first_name: req.body.first_name,
-        last_name: req.body.last_name
+        last_name: req.body.last_name,
       })
       .then(function() {
-        res.redirect(307, "/api/login");
-        res.render("login");
+        Mailer.accountCreate(Req);
+        res.redirect("/");
       })
       .catch(function(err) {
         res.status(401).json(err);
@@ -49,8 +51,12 @@ module.exports = function(app) {
         email: req.user.email,
         id: req.user.id,
         first_name: req.user.first_name,
-        last_name: req.user.last_name
+        last_name: req.user.last_name,
       });
     }
+  });
+  app.post("/make-reservation", isAuthenticated, function(req, res) {
+    Jeeves.createReservation(db, req);
+    Mailer.confirmAppt(req);
   });
 };

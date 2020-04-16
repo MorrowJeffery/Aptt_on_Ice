@@ -12,26 +12,32 @@ module.exports = function(app) {
     if (req.user) {
       return res.redirect("/members");
     }
-    res.render("signup");
+    res.render("login");
   });
 
-  app.get("/login", function(req, res) {
+  app.get("/signup", function(req, res) {
+    // If the user already has an account send them to the members page
+    if (req.user) {
+      return res.redirect("/members");
+    }
+    res.render("signup");
+  });
+  app.get("/", function(req, res) {
     // If the user already has an account send them to the members page
     if (req.user) {
       return res.redirect("/members");
     }
     res.render("login");
   });
-
   app.get("/members", isAuthenticated, function(req, res) {
     let Reservations = Jeeves.viewAllUserReservations(db, req);
-    Reservations.then(data => {
+    Reservations.then((data) => {
       res.render("members", { data });
-      console.log(Reservations);
+      // console.log(Reservations);
     });
     app.get("/make-reservation", isAuthenticated, function(req, res) {
       let Reservations = Jeeves.viewAllReservations(db);
-      Reservations.then(data => {
+      Reservations.then((data) => {
         res.render("calendar", { data });
       });
     });
