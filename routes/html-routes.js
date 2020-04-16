@@ -26,8 +26,8 @@ module.exports = function(app) {
     app.get("/caltest", function(req, res) {
         const reservations = [{
                 id: 01,
-                start: "2020-04-13 09:11:47",
-                end: "2020-04-13 09:11:47",
+                start: "2020-04-13 09:30:47",
+                end: "2020-04-13 10:00:47",
                 instructor: "john wick",
                 customer: "hello kitty",
                 email: "blah@so.com",
@@ -36,7 +36,7 @@ module.exports = function(app) {
             },
             {
                 id: 02,
-                start: "2020-04-17 09:11:47",
+                start: "2020-04-17 08:00:00",
                 end: "2020-04-17 09:11:47",
                 instructor: "john doe",
                 customer: "hello kitty",
@@ -60,31 +60,54 @@ module.exports = function(app) {
             reservation.start = reservation.start.substring(11, 16)
             reservation.end = reservation.end.substring(11, 16)
         }
-
+        const week = {
+            sunday: [],
+            monday: [],
+            tuesday: [],
+            wednesday: [],
+            thursday: [],
+            friday: [],
+            saturday: []
+        }
         reservations.forEach(reservation => {
             switch (moment(reservation.start).format('dddd')) {
+                case "Sunday":
+                    trimDate(reservation)
+                    week.sunday.push(reservation)
+                    break;
                 case "Monday":
                     trimDate(reservation)
-                    reservation.monday = "true"
+                    week.monday.push(reservation)
+                    break;
                 case "Tuesday":
                     trimDate(reservation)
-                    reservation.tuesday = "true"
+                    reservation.tuesday = true
+                    week.tuesday.push(reservation)
                     break;
                 case "Wednesday":
-                    reservation.wednesday = "true"
+                    reservation.wednesday = true
+                    week.wednesday.push(reservation)
                     break;
                 case "Thursday":
                     trimDate(reservation)
-                    reservation.thursday = "true"
+                    reservation.thursday = true
+                    week.thursday.push(reservation)
                     break;
                 case "Friday":
                     trimDate(reservation)
-                    reservation.friday = "true"
+                    reservation.friday = true
+                    week.friday.push(reservation)
                     break;
+                case "Saturday":
+                    trimDate(reservation)
+                    week.saturday.push(reservation)
+                    break;
+
             }
 
         })
-        res.render("caltest", { reservations })
+        console.log(week)
+        res.render("caltest", week)
 
 
     })
