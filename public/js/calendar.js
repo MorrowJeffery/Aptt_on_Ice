@@ -453,7 +453,7 @@ function genDropDowns() {
 		 var Start_Time = availibleStart;
 		 var End_Time = availibleEnd; 
 		 var userId = userID;
-		 var instructorID = userID + 1; 
+		 var instructorID = userID; 
 		 var session_ID = session; 
 		 var unformatedstart = $('#LT').text();
 		 if (unformatedstart.length == 4) {var resStart_Time = ('0' + unformatedstart)}
@@ -461,7 +461,7 @@ function genDropDowns() {
 		 var resEnd_Time = moment().hour(resStart_Time.slice(0,2)).minute(resStart_Time.slice(-2)).add($('#LOL').text(),'minutes').format("HH:mm");
 		var resStart_Time = reservationDay + resStart_Time + reservationZone;
 		resEnd_Time = reservationDay + resEnd_Time + reservationZone;
-		//console.log(Start_Time,End_Time,userId,instructorID,session_ID, resStart_Time,resEnd_Time);
+		console.log(Start_Time,End_Time,userId,instructorID,session_ID, resStart_Time,resEnd_Time);
 		$.post("/api/make-reservation", {
 			Start_Time: Start_Time,
 			End_Time: End_Time,
