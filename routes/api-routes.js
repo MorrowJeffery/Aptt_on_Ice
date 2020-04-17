@@ -57,6 +57,7 @@ module.exports = function(app) {
   app.post("/api/make-reservation", function(req, res) {
     Jeeves.createReservation(db, req);
     Mailer.confirmAppt(req);
+    res.redirect("/members");
   });
   app.get("/api/user_data", function(req, res) {
     if (!req.user) {

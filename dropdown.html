@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/lumen/bootstrap.min.css">
+		<title>On Ice</title>
+		<script src="https://code.jquery.com/jquery.js"></script>
+</head>
+	<body>
+		<!-- <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" id="LT">Lesson Time
+            <span class="caret"></span></button>
+            <ul class="dropdown-menu" id="startTimeList">
+
+            </ul>
+          </div>
+
+          <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" id="LOL">Length Of Lesson
+            <span class="caret"></span></button>
+            <ul class="dropdown-menu">
+              <li><a class = "times">15</a></li>
+              <li><a class = "times">30</a></li>
+              <li><a class = "times">45</a></li>
+              <li><a class = "times">60</a></li>
+            </ul>
+          </div> -->
+
+          <div id="randomdiv1"></div>
+          <div id="randomdiv2"></div>
+        
+          <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+          <script>
+
+
+
+              var starttime = "9:00";
+              var endtime = "12:00";
+
+              function genDropDowns() {
+                const dropdown1 = $("<div>").addClass("dropdown");
+                const dropdown2 = $("<div>").addClass("dropdown");
+                const button1 = $("<button>").addClass("btn btn-primary dropdown-toggle").attr("type", "button").attr("data-toggle", "dropdown").attr("id", "LT").text("Lesson Time");
+                const button2 = $("<button>").addClass("btn btn-primary dropdown-toggle").attr("type", "button").attr("data-toggle", "dropdown").attr("id", "LOL").text("Length Of Lesson");
+                const span1 = $("<span>").addClass("caret");
+                const span2 = $("<span>").addClass("caret");
+                const ul1 = $("<ul>").addClass("dropdown-menu").attr("id", "startTimeList");
+                const ul2 = $("<ul>").addClass("dropdown-menu");
+                const a1 = $("<a>").text("15").addClass("times");
+                const a2 = $("<a>").text("30").addClass("times");
+                const a3 = $("<a>").text("45").addClass("times");
+                const a4 = $("<a>").text("60").addClass("times");
+                const li1 = $("<li>").append(a1);
+                const li2 = $("<li>").append(a2);
+                const li3 = $("<li>").append(a3);
+                const li4 = $("<li>").append(a4);
+
+                  $('#randomdiv1').append(dropdown1);
+                  $('#randomdiv2').append(dropdown2);
+                  dropdown1.append(button1, span1, ul1);
+                  dropdown2.append(button2, span2, ul2);
+                  ul2.append(li1, li2, li3, li4);
+
+                  const subButton = $("<button>").attr("id", "newReservationBtn").attr("type", "button").text("Submit");
+                  $('#randomdiv2').append(subButton);
+                }
+
+              function genTimeBlocks(start, end) {
+                  if (start.length == 5) {var starthour = start.slice(0,2)}
+                  else {var starthour = start.slice(0,1)}
+                  var startminutes = start.slice(-2);
+
+                  var hourTracker = parseInt(starthour);
+                  var minuteTracker = parseInt(startminutes); 
+                  for (; time != end ; minuteTracker += 15 ) 
+                  {
+                    if (minuteTracker == 60) {
+                        minuteTracker = 0;
+                        hourTracker++;
+                    }
+                    if (minuteTracker == 0) {var time = hourTracker + ":" + "00"}
+                    else {var time = hourTracker + ":" + minuteTracker;}
+                    if (time == end) {break;}
+                    var timeli = $("<li>");
+                    var timea = $("<a>").text(time).addClass("timeslots");
+                    timeli.append(timea);
+                    $('#startTimeList').append($(timeli));
+                  }
+              }
+              genDropDowns();
+              genTimeBlocks(starttime, endtime);
+
+           $('.dropdown-toggle').dropdown();
+           $('.times').on("click", function(event) {
+               $('#LOL').text($(event.target).text());
+           })
+           $('.timeslots').on("click", function(event) {
+               $('#LT').text($(event.target).text());
+           })
+           $('#newReservationBtn').on("click", function() {
+             var 
+              var Start_Time = "";
+              var End_Time = ""; 
+              var userId = "";
+              var instructorID = ""; 
+              var session_ID = ""; 
+              var unformatedstart = $('#LT').text();
+              if (unformatedstart.length == 4) {var resStart_Time = ('0' + unformatedstart)}
+              else {var resStart_Time = unformatedstart} 
+              var resEnd_Time = moment().hour(resStart_Time.slice(0,2)).minute(resStart_Time.slice(-2)).add($('#LOL').text(),'minutes').format("HH:mm");
+             })
+           
+
+
+          </script>
+	</body>
+</html>

@@ -37,13 +37,18 @@ module.exports = function(sequelize, DataTypes) {
 
   reservations.associate = function(models) {
     reservations.belongsTo(models.users, {
-      foreignKey: {
-        allowNull: false,
-      },
+      // foreignKey:  {
+      //   name: "userId",
+      //   allowNull: true
+      // }
     });
     reservations.belongsTo(models.users, {
       as: "instructor",
-      foreignKey: "instructorid",
+      // foreignKey:  {
+      //   name: "instructorId",
+      //   allowNull: false,
+      // }
+      // // allowNull: false,
     });
   };
   return reservations;

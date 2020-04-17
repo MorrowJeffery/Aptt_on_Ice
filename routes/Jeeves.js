@@ -3,18 +3,21 @@ var passport = require("../config/passport");
 const { v4: uuidv4 } = require("uuid");
 const moment = require("moment");
 const { Op } = require("sequelize");
-// let req = {
-//   resStart_Time:
-//   resEnd_Time:
-//   Start_Time: "2020-04-12 2:30",
-//   End_Time: "2020-04-12 3:00",
-//   UserId: 4,
-//   instructorID = 1,
-//   session_ID = 'ef4b99ae-dc09-4633-a7f1-b92feb993c8b'
-// };
+
+let req = {
+  resStart_Time: "2020-04-16T19:30:00.000Z",
+  resEnd_Time: "2020-04-16T20:00:00.000Z",
+  Start_Time: "2020-04-12 2:30",
+  End_Time: "2020-04-12 3:00",
+  UserId: 1,
+  instructorID: 2,
+  session_ID: "ef4b99ae-dc09-4633-a7f1-b92feb993c8b",
+};
+
 const Jeeves = {
   createTimeSlot: async function(db, start, end, Id) {
     let sesh_id = uuidv4();
+    //console.log(start,end,Id,sesh_id);
     db.reservations.create({
       start_Time: start,
       end_Time: end,
@@ -47,20 +50,41 @@ const Jeeves = {
     stat = "Booked";
     // entire time slot
     if (resStart_Time === Start_Time && req.resEnd_Time === End_Time) {
-      updateTimeSlot(db, Start_Time, End_Time, session_ID, stat, userId);
+      Jeeves.updateTimeSlot(db, Start_Time, End_Time, session_ID, stat, userId);
     } else if (resStart_Time === Start_Time && resEnd_Time !== End_Time) {
       //   same start different end
-      createTimeSlot(db, resEnd_Time, End_Time, instructorID);
-      updateTimeSlot(db, Start_Time, resEnd_Time, session_ID, stat, userId);
+      Jeeves.createTimeSlot(db, resEnd_Time, End_Time, instructorID);
+      Jeeves.updateTimeSlot(
+        db,
+        Start_Time,
+        resEnd_Time,
+        session_ID,
+        stat,
+        userId
+      );
     } else if (resStart_Time !== Start_Time && resEnd_Time === End_Time) {
       //   same end different start
-      createTimeSlot(db, start_Time, resStart_Time, instructorID);
-      updateTimeSlot(db, resStart_Time, End_Time, session_ID, stat, userId);
+      Jeeves.createTimeSlot(db, Start_Time, resStart_Time, instructorID);
+      Jeeves.updateTimeSlot(
+        db,
+        resStart_Time,
+        End_Time,
+        session_ID,
+        stat,
+        userId
+      );
     } else {
       // different start and end
-      createTimeSlot(db, start_Time, resStart_Time, instructorID);
-      createTimeSlot(db, resEnd_Time, End_Time, instructorID);
-      updateTimeSlot(db, resStart_Time, resEnd_Time, session_ID, stat, userId);
+      Jeeves.createTimeSlot(db, Start_Time, resStart_Time, instructorID);
+      Jeeves.createTimeSlot(db, resEnd_Time, End_Time, instructorID);
+      Jeeves.updateTimeSlot(
+        db,
+        resStart_Time,
+        resEnd_Time,
+        session_ID,
+        stat,
+        userId
+      );
     }
   },
   cancelReservation: async function(db, start, end, session, user) {
@@ -132,7 +156,6 @@ const Jeeves = {
 
     let values = [];
     results.forEach((res) => {
-      console.log(res.user);
       values.push({
         id: res.id,
         start: res.start_Time,
@@ -149,3 +172,4 @@ const Jeeves = {
 };
 
 module.exports = Jeeves;
+//Jeeves.createReservation(db, req);
