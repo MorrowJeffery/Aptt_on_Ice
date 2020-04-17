@@ -1,5 +1,4 @@
 node_modules
-env.js
 test.js
 .env
 .eslint.json
