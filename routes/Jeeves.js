@@ -11,7 +11,7 @@ let req = {
   End_Time: "2020-04-12 3:00",
   UserId: 1,
   instructorID: 2,
-  session_ID : 'ef4b99ae-dc09-4633-a7f1-b92feb993c8b'
+  session_ID: "ef4b99ae-dc09-4633-a7f1-b92feb993c8b",
 };
 
 const Jeeves = {
@@ -54,16 +54,37 @@ const Jeeves = {
     } else if (resStart_Time === Start_Time && resEnd_Time !== End_Time) {
       //   same start different end
       Jeeves.createTimeSlot(db, resEnd_Time, End_Time, instructorID);
-      Jeeves.updateTimeSlot(db, Start_Time, resEnd_Time, session_ID, stat, userId);
+      Jeeves.updateTimeSlot(
+        db,
+        Start_Time,
+        resEnd_Time,
+        session_ID,
+        stat,
+        userId
+      );
     } else if (resStart_Time !== Start_Time && resEnd_Time === End_Time) {
       //   same end different start
       Jeeves.createTimeSlot(db, Start_Time, resStart_Time, instructorID);
-      Jeeves.updateTimeSlot(db, resStart_Time, End_Time, session_ID, stat, userId);
+      Jeeves.updateTimeSlot(
+        db,
+        resStart_Time,
+        End_Time,
+        session_ID,
+        stat,
+        userId
+      );
     } else {
       // different start and end
       Jeeves.createTimeSlot(db, Start_Time, resStart_Time, instructorID);
       Jeeves.createTimeSlot(db, resEnd_Time, End_Time, instructorID);
-      Jeeves.updateTimeSlot(db, resStart_Time, resEnd_Time, session_ID, stat, userId);
+      Jeeves.updateTimeSlot(
+        db,
+        resStart_Time,
+        resEnd_Time,
+        session_ID,
+        stat,
+        userId
+      );
     }
   },
   cancelReservation: async function(db, start, end, session, user) {
@@ -135,7 +156,6 @@ const Jeeves = {
 
     let values = [];
     results.forEach((res) => {
-      console.log(res.user);
       values.push({
         id: res.id,
         start: res.start_Time,
