@@ -1,6 +1,0 @@
-node_modules
-test.js
-.env
-.eslint.json
-config\config.json
-.travis.yml
