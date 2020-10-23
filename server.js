@@ -1,11 +1,14 @@
 const express = require("express");
-const mongoose = require("mongoose");
+const sequelize = require("sequelize");
 const bodyParser = require("body-parser");
 const passport = require("passport");
 
 const users = require("./routes/api/users");
 
 const app = express();
+
+//env variable support
+require('dotenv').config();
 
 // Bodyparser middleware
 app.use(
@@ -16,16 +19,25 @@ app.use(
 app.use(bodyParser.json());
 
 // DB Config
-const db = require("./config/keys").mongoURI;
+// const db = require("./config/keys").mongoURI;
+const db = require('./models');
 
 // Connect to MongoDB
-mongoose
-  .connect(
-    db,
-    { useNewUrlParser: true }
-  )
-  .then(() => console.log("MongoDB successfully connected"))
-  .catch(err => console.log(err));
+// mongoose
+//   .connect(
+//     db,
+//     { useNewUrlParser: true }
+//   )
+//   .then(() => console.log("MongoDB successfully connected"))
+//   .catch(err => console.log(err));
+
+
+// try {
+//   await sequelize.authenticate();
+//   console.log('Connection has been established successfully.');
+// } catch (error) {
+//   console.error('Unable to connect to the database:', error);
+// }
 
 // Passport middleware
 app.use(passport.initialize());
@@ -38,4 +50,7 @@ app.use("/api/users", users);
 
 const port = process.env.PORT || 5000;
 
-app.listen(port, () => console.log(`Server up and running on port ${port} !`));
+db.sequelize.sync().then(() => {
+  app.listen(port, () => console.log(`Server up and running on port ${port} !`));
+})
+

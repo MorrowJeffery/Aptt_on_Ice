@@ -1,27 +1,30 @@
 {
-  "name": "mern-auth",
+  "name": "apt-on-ice-2.0",
   "version": "1.0.0",
-  "description": "Mern Auth Example",
+  "description": "This web app is a for instructors and clients to connect and schedule lessons",
   "main": "server.js",
   "scripts": {
+    "start": "concurrently \"nodemon --ignore 'client/*'\" \"npm run client\"",
+    "client": "cd client && npm run start",
     "client-install": "npm install --prefix client",
-    "start": "node server.js",
+    "start:prod": "node server.js",
     "server": "nodemon server.js",
-    "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
-  "author": "",
+  "author": "Jeffery Morrow",
   "license": "MIT",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "concurrently": "^4.0.1",
-    "express": "^4.16.4",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.0",
     "is-empty": "^1.2.0",
     "jsonwebtoken": "^8.3.0",
-    "mongoose": "^5.3.11",
+    "mysql2": "^1.6.5",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
+    "sequelize": "^5.8.6",
     "validator": "^10.9.0"
   }
 }
