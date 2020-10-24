@@ -12,10 +12,10 @@ const validateLoginInput = require("../../validation/login");
 // Load User model
 const db = require("../../models");
 
-// @route POST api/users/register
+
 // @desc Register user
 // @access Public
-router.post("/register", (req, res) => {
+router.post("/instructor/register", (req, res) => {
   // Form validation
 
   const { errors, isValid } = validateRegisterInput(req.body);
@@ -25,26 +25,26 @@ router.post("/register", (req, res) => {
     return res.status(400).json(errors);
   }
 
-  db.User.findOne({where:{ email: req.body.email }}).then(user => {
-    if (user) {
+  db.Instructor.findOne({where:{ email: req.body.email }}).then(instructor => {
+    if (instructor) {
       return res.status(400).json({ email: "Email already exists" });
     } else {
-      const newUser = {
+      const newInstructor = {
         name: req.body.name,
         email: req.body.email,
         password: req.body.password
       };
       // Hash password before saving in database
       bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash(newUser.password, salt, (err, hash) => {
+        bcrypt.hash(newInstructor.password, salt, (err, hash) => {
           if (err) throw err;
-          newUser.password = hash;
-          db.User.create({
-            name: newUser.name,
-            email: newUser.email,
-            password: newUser.password
+          newInstructor.password = hash;
+          db.Instructor.create({
+            name: newInstructor.name,
+            email: newInstructor.email,
+            password: newInstructor.password
           })
-            .then(user => res.json(user))
+            .then(instructor => res.json(instructor))
             .catch(err => res.json(err));
         });
       });
@@ -54,10 +54,9 @@ router.post("/register", (req, res) => {
   })
 });
 
-// @route POST api/users/login
 // @desc Login user and return JWT token
 // @access Public
-router.post("/login", (req, res) => {
+router.post("/instructor/login", (req, res) => {
   // Form validation
 
   const { errors, isValid } = validateLoginInput(req.body);
@@ -71,9 +70,9 @@ router.post("/login", (req, res) => {
   const password = req.body.password;
 
   // Find user by email
-  db.User.findOne({ where: { email: req.body.email } }).then(user => {
+  db.Instructor.findOne({ where: { email: req.body.email } }).then(instructor => {
     // Check if user exists
-    if (!user) {
+    if (!instructor) {
       return res.status(404).json({ emailnotfound: "Email not found" });
     }
 
@@ -83,8 +82,8 @@ router.post("/login", (req, res) => {
         // User matched
         // Create JWT Payload
         const payload = {
-          id: user.id,
-          name: user.name
+          id: instructor.id,
+          name: instructor.name
         };
 
         // Sign token

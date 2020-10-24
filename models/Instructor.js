@@ -2,7 +2,7 @@ const bcrypt = require("bcryptjs");
 const Sequelize = require('sequelize');
 
 module.exports = function(sequelize, DataTypes) {
-  const User = sequelize.define("User", {
+  const Instructor = sequelize.define("Instructor", {
     name: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -20,10 +20,10 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false
     }
   })
+  Instructor.associate = function(models) {
+      Instructor.hasMany(models.Timeslot)
+      Instructor.hasMany(models.Lesson)
+  }
 
-  User.associate = function(models) {
-    User.hasMany(models.Lesson)
-}
-
-  return User;
+  return Instructor;
 }
