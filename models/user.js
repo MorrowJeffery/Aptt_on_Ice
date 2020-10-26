@@ -18,6 +18,18 @@ module.exports = function(sequelize, DataTypes) {
     password: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    address: {
+      type: DataTypes.STRING,
+      allownull: false
+    },
+    city: {
+      type: DataTypes.STRING,
+      allownull: false
+    },
+    state: {
+      type: DataTypes.STRING,
+      allownull: false
     }
   })
 

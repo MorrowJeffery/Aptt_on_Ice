@@ -18,8 +18,25 @@ module.exports = function(sequelize, DataTypes) {
     password: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    address: {
+      type: DataTypes.STRING,
+      allownull: false
+    },
+    city: {
+      type: DataTypes.STRING,
+      allownull: false
+    },
+    state: {
+      type: DataTypes.STRING,
+      allownull: false
+    },
+    instructortype: {
+      type: DataTypes.STRING,
+      allowNull: false
     }
   })
+
   Instructor.associate = function(models) {
       Instructor.hasMany(models.Timeslot)
       Instructor.hasMany(models.Lesson)
