@@ -36,6 +36,7 @@ router.post("/register", (req, res) => {
         address: req.body.address,
         city: req.body.city,
         state: req.body.state,
+        zip: req.body.zip,
         phoneNumber: req.body.phoneNumber
       };
       // Hash password before saving in database
@@ -50,6 +51,7 @@ router.post("/register", (req, res) => {
             address: newUser.address,
             city: newUser.city,
             state: newUser.state,
+            zip: newUser.zip,
             phoneNumber: newUser.phoneNumber
           })
             .then(user => res.json(user))

@@ -6,7 +6,7 @@ const keys = require("../../config/keys");
 const passport = require("passport");
 
 // Load input validation
-const validateRegisterInput = require("../../validation/register");
+const validateRegisterInput = require("../../validation/registerInstructor");
 const validateLoginInput = require("../../validation/login");
 
 // Load User model
@@ -36,6 +36,7 @@ router.post("/instructor/register", (req, res) => {
         address: req.body.address,
         city: req.body.city,
         state: req.body.state,
+        zip: req.body.zip,
         instructorType: req.body.instructorType,
         phoneNumber: req.body.phoneNumber
       };
@@ -51,6 +52,7 @@ router.post("/instructor/register", (req, res) => {
             address: newInstructor.address,
             city: newInstructor.city,
             state: newInstructor.state,
+            zip: newInstructor.zip,
             instructorType: newInstructor.instructorType,
             phoneNumber: newInstructor.phoneNumber
           })
