@@ -31,7 +31,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING,
       allownull: false
     },
-    instructortype: {
+    instructorType: {
       type: DataTypes.STRING,
       allowNull: false
     }

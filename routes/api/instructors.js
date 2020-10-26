@@ -32,7 +32,11 @@ router.post("/instructor/register", (req, res) => {
       const newInstructor = {
         name: req.body.name,
         email: req.body.email,
-        password: req.body.password
+        password: req.body.password,
+        address: req.body.address,
+        city: req.body.city,
+        state: req.body.state,
+        instructorType: req.body.instructorType
       };
       // Hash password before saving in database
       bcrypt.genSalt(10, (err, salt) => {
@@ -42,7 +46,11 @@ router.post("/instructor/register", (req, res) => {
           db.Instructor.create({
             name: newInstructor.name,
             email: newInstructor.email,
-            password: newInstructor.password
+            password: newInstructor.password,
+            address: newInstructor.address,
+            city: newInstructor.city,
+            state: newInstructor.state,
+            instructorType: newInstructor.instructorType
           })
             .then(instructor => res.json(instructor))
             .catch(err => res.json(err));
