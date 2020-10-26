@@ -9,10 +9,6 @@ module.exports = function validateRegisterInput(data) {
   data.email = !isEmpty(data.email) ? data.email : "";
   data.password = !isEmpty(data.password) ? data.password : "";
   data.password2 = !isEmpty(data.password2) ? data.password2 : "";
-  data.address = !isEmpty(data.address) ? data.address: "";
-  data.city = !isEmpty(data.city) ? data.city: "";
-  data.state = !isEmpty(data.state) ? data.state: "";
-  data.phoneNumber = !isEmpty(data.phoneNumber) ? data.phoneNumber: "";
 
   // Name checks
   if (Validator.isEmpty(data.name)) {
@@ -26,27 +22,32 @@ module.exports = function validateRegisterInput(data) {
     errors.email = "Email is invalid";
   }
 
-  //Address check
-  if (Validator.isEmpty(data.address)) {
-    errors.address = "Address field is required";
-  }
+    //Address check
+    if (Validator.isEmpty(data.address)) {
+      errors.address = "Address field is required";
+    }
+  
+    //City check
+    if (Validator.isEmpty(data.city)) {
+      errors.city = "City field is required";
+    }
+  
+    //State check
+    if (Validator.isEmpty(data.state)) {
+      errors.state = "state field is required";
+    }
+  
+    //Phone number check
+    if (Validator.isEmpty(data.phoneNumber)) {
+      errors.phoneNumber = "Phone number field is required";
+    } else if (!Validator.isMobilePhone(data.phoneNumber)) {
+      errors.email = "Phone number is invalid";
+    }
 
-  //City check
-  if (Validator.isEmpty(data.city)) {
-    errors.city = "City field is required";
-  }
-
-  //State check
-  if (Validator.isEmpty(data.state)) {
-    errors.state = "state field is required";
-  }
-
-  //Phone number check
-  if (Validator.isEmpty(data.phoneNumber)) {
-    errors.phoneNumber = "Phone number field is required";
-  } else if (!Validator.isMobilePhone(data.phoneNumber)) {
-    errors.email = "Phone number is invalid";
-  }
+    //Instructor type check
+    if (Validator.isEmpty(data.instructorType)) {
+      errors.instructorType = "Instructor type field is required";
+    }
 
   // Password checks
   if (Validator.isEmpty(data.password)) {

@@ -34,6 +34,10 @@ module.exports = function(sequelize, DataTypes) {
     instructorType: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    phoneNumber: {
+      type: DataTypes.STRING,
+      allowNull: false
     }
   })
 

@@ -30,6 +30,10 @@ module.exports = function(sequelize, DataTypes) {
     state: {
       type: DataTypes.STRING,
       allownull: false
+    },
+    phoneNumber: {
+      type: DataTypes.STRING,
+      allowNull: false
     }
   })
 

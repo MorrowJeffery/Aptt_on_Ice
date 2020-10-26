@@ -35,7 +35,8 @@ router.post("/register", (req, res) => {
         password: req.body.password,
         address: req.body.address,
         city: req.body.city,
-        state: req.body.state
+        state: req.body.state,
+        phoneNumber: req.body.phoneNumber
       };
       // Hash password before saving in database
       bcrypt.genSalt(10, (err, salt) => {
@@ -48,7 +49,8 @@ router.post("/register", (req, res) => {
             password: newUser.password,
             address: newUser.address,
             city: newUser.city,
-            state: newUser.state
+            state: newUser.state,
+            phoneNumber: newUser.phoneNumber
           })
             .then(user => res.json(user))
             .catch(err => res.json(err));
