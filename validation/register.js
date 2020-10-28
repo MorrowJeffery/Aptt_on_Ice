@@ -45,7 +45,7 @@ module.exports = function validateRegisterInput(data) {
   if (Validator.isEmpty(data.phoneNumber)) {
     errors.phoneNumber = "Phone number field is required";
   } else if (!Validator.isMobilePhone(data.phoneNumber)) {
-    errors.email = "Phone number is invalid";
+    errors.phoneNumber = "Phone number is invalid";
   }
 
   // Password checks

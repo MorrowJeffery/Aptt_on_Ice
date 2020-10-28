@@ -3,7 +3,6 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const keys = require("../../config/keys");
-const passport = require("passport");
 
 // Load input validation
 const validateRegisterInput = require("../../validation/registerInstructor");
@@ -15,7 +14,7 @@ const db = require("../../models");
 
 // @desc Register user
 // @access Public
-router.post("/instructor/register", (req, res) => {
+router.post("/register", (req, res) => {
   // Form validation
 
   const { errors, isValid } = validateRegisterInput(req.body);
@@ -66,9 +65,9 @@ router.post("/instructor/register", (req, res) => {
   })
 });
 
-// @desc Login user and return JWT token
+// @desc Login instructor and return JWT token
 // @access Public
-router.post("/instructor/login", (req, res) => {
+router.post("/login", (req, res) => {
   // Form validation
 
   const { errors, isValid } = validateLoginInput(req.body);
@@ -81,7 +80,7 @@ router.post("/instructor/login", (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
 
-  // Find user by email
+  // Find instructor by email
   db.Instructor.findOne({ where: { email: req.body.email } }).then(instructor => {
     // Check if user exists
     if (!instructor) {
@@ -89,9 +88,9 @@ router.post("/instructor/login", (req, res) => {
     }
 
     // Check password
-    bcrypt.compare(password, user.password).then(isMatch => {
+    bcrypt.compare(password, instructor.password).then(isMatch => {
       if (isMatch) {
-        // User matched
+        // instructor matched
         // Create JWT Payload
         const payload = {
           id: instructor.id,

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { loginUser } from "../../actions/authActions";
+import { loginInstructor } from "../../../actions/authActions";
 import classnames from "classnames";
 
 class Login extends Component {
@@ -22,15 +22,26 @@ class Login extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.auth.isAuthenticated) {
-      this.props.history.push("/dashboard");
+      return(null)
+    }
+    if(nextProps.errors !== prevState.errors) {
+      return({errors: nextProps.errors})
+    }
+    else return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if(prevProps.auth.isAuthenticated!==this.props.auth.isAuthenticated){
+      //Perform some operation here
+      this.setState({errors: {}})
+      this.props.history.push("/instructor/dashboard");
     }
 
-    if (nextProps.errors) {
-      this.setState({
-        errors: nextProps.errors
-      });
+    if(prevProps.errors!==this.props.errors){
+      //Perform some operation here
+      this.setState({errors: this.props.errors});
     }
   }
 
@@ -46,7 +57,7 @@ class Login extends Component {
       password: this.state.password
     };
 
-    this.props.loginUser(userData);
+    this.props.loginInstructor(userData);
   };
 
   render() {
@@ -54,18 +65,18 @@ class Login extends Component {
 
     return (
       <div className="container">
-        <div style={{ marginTop: "4rem" }} className="row">
+        <div className="row">
           <div className="col s8 offset-s2">
             <Link to="/" className="btn-flat waves-effect">
               <i className="material-icons left">keyboard_backspace</i> Back to
               home
             </Link>
-            <div className="col s12" style={{ paddingLeft: "11.250px" }}>
+            <div className="col s12">
               <h4>
-                <b>Login</b> below
+                <b>Instructors </b> Login below
               </h4>
               <p className="grey-text text-darken-1">
-                Don't have an account? <Link to="/register">Register</Link>
+                Not an instructor? <Link to="/login">Student Login</Link>
               </p>
             </div>
             <form noValidate onSubmit={this.onSubmit}>
@@ -103,14 +114,8 @@ class Login extends Component {
                   {errors.passwordincorrect}
                 </span>
               </div>
-              <div className="col s12" style={{ paddingLeft: "11.250px" }}>
+              <div className="col s12">
                 <button
-                  style={{
-                    width: "150px",
-                    borderRadius: "3px",
-                    letterSpacing: "1.5px",
-                    marginTop: "1rem"
-                  }}
                   type="submit"
                   className="btn btn-large waves-effect waves-light hoverable blue accent-3"
                 >
@@ -126,7 +131,7 @@ class Login extends Component {
 }
 
 Login.propTypes = {
-  loginUser: PropTypes.func.isRequired,
+  loginInstructor: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired
 };
@@ -138,5 +143,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { loginUser }
+  { loginInstructor }
 )(Login);

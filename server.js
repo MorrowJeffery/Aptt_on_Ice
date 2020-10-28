@@ -5,6 +5,7 @@ const passport = require("passport");
 require('dotenv').config();
 
 const users = require("./routes/api/users");
+const instructors = require("./routes/api/instructors");
 
 const app = express();
 
@@ -27,9 +28,10 @@ require("./config/passport")(passport);
 
 // Routes
 app.use("/api/users", users);
+app.use("/api/instructors", instructors)
 
 const port = process.env.PORT || 5000;
 
-db.sequelize.sync( ).then(() => {
+db.sequelize.sync( {} ).then(() => {
   app.listen(port, () => console.log(`Server up and running on port ${port} !`));
 })
