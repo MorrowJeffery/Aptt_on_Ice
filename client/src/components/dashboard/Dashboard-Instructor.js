@@ -10,7 +10,6 @@ class Dashboard extends Component {
   };
 
   render() {
-    console.log(this.props.auth)
     const { instructor } = this.props.auth;
 
     return (
