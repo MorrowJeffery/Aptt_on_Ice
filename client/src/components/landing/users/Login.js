@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { loginUser } from "../../../actions/authActions";
+import { loginUser, refreshInstructor, refreshUser } from "../../../actions/authActions";
 import classnames from "classnames";
 
 
@@ -18,9 +18,23 @@ class Login extends Component {
 
   componentDidMount() {
     // If logged in and user navigates to Login page, should redirect them to dashboard
-    if (this.props.auth.isAuthenticated) {
+    if (localStorage.getItem("jwtTokenUSR") !== null && (this.props.auth.isAuthenticated)) {
       this.props.history.push("/dashboard");
+    } 
+    // If the user has a user token but doesn't show them as authenticated -- fresh the state using the token
+    // else if (localStorage.getItem("jwtTokenUSR") !== null && (!this.props.auth.isAuthenticated)) {
+    //   this.props.refreshUser(localStorage.getItem("jwtTokenUSR"));
+    //   this.props.history.push("/dashboard");
+    // }
+    // If logged in and user navigates to Login page, should redirect them to dashboard
+    else if (localStorage.getItem("jwtTokenINS") !== null && (this.props.auth.isAuthenticated)) {
+      this.props.history.push("/instructor/dashboard");
     }
+    // If the user has a user token but doesn't show them as authenticated -- fresh the state using the token
+    // else if ((localStorage.getItem("jwtTokenINS") !== null) && (!this.props.auth.isAuthenticated)) {
+    //   this.props.refreshInstructor(localStorage.getItem("jwtTokenINS"));
+    //   this.props.push("/instructor/dashboard");
+    // }
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -150,5 +164,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { loginUser }
+  { loginUser, refreshInstructor, refreshUser }
 )(Login);

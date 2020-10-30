@@ -1,7 +1,22 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
+import {connect} from "react-redux";
+import { refreshInstructor, refreshUser } from "../../actions/authActions";
 
 class Landing extends Component {
+
+  // componentDidMount() {
+  //       // If the user has a user token but doesn't show them as authenticated -- fresh the state using the token
+  //       if (localStorage.getItem("jwtTokenUSR") !== null && (!this.props.auth.isAuthenticated)) {
+  //         this.props.refreshUser(localStorage.getItem("jwtTokenUSR"));
+  //       }
+  //       // If the user has a user token but doesn't show them as authenticated -- fresh the state using the token
+  //       else if ((localStorage.getItem("jwtTokenINS") !== null) && (!this.props.auth.isAuthenticated)) {
+  //         this.props.refreshInstructor(localStorage.getItem("jwtTokenINS"));
+  //       }
+  // }
+
   render() {
     return (
       <div className="container valign-wrapper">
@@ -45,4 +60,10 @@ class Landing extends Component {
   }
 }
 
-export default Landing;
+Landing.propTypes = {
+  auth: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({auth: state.auth});
+
+export default connect(mapStateToProps, {refreshInstructor, refreshUser})(Landing);

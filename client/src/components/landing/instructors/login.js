@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { loginInstructor } from "../../../actions/authActions";
+import { loginInstructor, refreshInstructor, refreshUser } from "../../../actions/authActions";
 import classnames from "classnames";
 
 class Login extends Component {
@@ -17,15 +17,31 @@ class Login extends Component {
 
   componentDidMount() {
     // If logged in and user navigates to Login page, should redirect them to dashboard
-    if (this.props.auth.isAuthenticated) {
+    if (localStorage.getItem("jwtTokenUSR") !== null && (this.props.auth.isAuthenticated)) {
       this.props.history.push("/dashboard");
+    } 
+    // If the user has a user token but doesn't show them as authenticated -- fresh the state using the token
+    // else if (localStorage.getItem("jwtTokenUSR") !== null && (!this.props.auth.isAuthenticated)) {
+    //   this.props.refreshUser(localStorage.getItem("jwtTokenUSR"));
+    //   this.props.history.push("/dashboard");
+    // }
+    // If logged in and user navigates to Login page, should redirect them to dashboard
+    else if (localStorage.getItem("jwtTokenINS") !== null && (this.props.auth.isAuthenticated)) {
+      this.props.history.push("/instructor/dashboard");
     }
+    // If the user has a user token but doesn't show them as authenticated -- fresh the state using the token
+    // else if ((localStorage.getItem("jwtTokenINS") !== null) && (!this.props.auth.isAuthenticated)) {
+    //   this.props.refreshInstructor(localStorage.getItem("jwtTokenINS"));
+    //   this.props.push("/instructor/dashboard");
+    // }
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
+    // if the user logs in--let react know an update happened
     if (nextProps.auth.isAuthenticated) {
       return(null)
     }
+    // if there were any issues with requests--return the new errors for react to pick up
     if(nextProps.errors !== prevState.errors) {
       return({errors: nextProps.errors})
     }
@@ -33,14 +49,16 @@ class Login extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    // when the instructor is logged in--redirect to the dashboard
     if(prevProps.auth.isAuthenticated!==this.props.auth.isAuthenticated){
-      //Perform some operation here
       this.setState({errors: {}})
-      this.props.history.push("/instructor/dashboard");
-    }
+      if (localStorage.getItem("jwtTokenINS") !== null) {
+        this.props.history.push("/instructor/dashboard");
+      }
 
+    }
+    // when react notices a change to errors -- push those changes onto our state/page
     if(prevProps.errors!==this.props.errors){
-      //Perform some operation here
       this.setState({errors: this.props.errors});
     }
   }
@@ -143,5 +161,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { loginInstructor }
+  { loginInstructor, refreshInstructor, refreshUser }
 )(Login);

@@ -37,7 +37,7 @@ export const loginUser = userData => dispatch => {
     .then(res => {
       // Set token to localStorage
       const { token } = res.data;
-      localStorage.setItem("jwtToken", token);
+      localStorage.setItem("jwtTokenUSR", token);
       // Set token to Auth header
       setAuthToken(token);
       // Decode token to get user data
@@ -60,7 +60,7 @@ export const loginInstructor = instructorData => dispatch => {
     .then(res => {
       // Set token to localStorage
       const { token } = res.data;
-      localStorage.setItem("jwtToken", token);
+      localStorage.setItem("jwtTokenINS", token);
       // Set token to Auth header
       setAuthToken(token);
       // Decode token to get user data
@@ -75,6 +75,18 @@ export const loginInstructor = instructorData => dispatch => {
       })
     );
 };
+
+// Refresh state from token if user refreshes
+export const refreshUser = tkn => dispatch => {
+  const decoded = jwt_decode(tkn);
+  dispatch(setCurrentUser(decoded));
+}
+
+// Refresh state from token if instructor refreshes
+export const refreshInstructor = tkn => dispatch => {
+  const decoded = jwt_decode(tkn);
+  dispatch(setCurrentInstructor(decoded));
+}
 
 // Set logged in user
 export const setCurrentUser = decoded => {
@@ -109,7 +121,7 @@ export const setInstructorLoading = () => {
 // Log user out
 export const logoutUser = () => dispatch => {
   // Remove token from local storage
-  localStorage.removeItem("jwtToken");
+  localStorage.removeItem("jwtTokenUSR");
   // Remove auth header for future requests
   setAuthToken(false);
   // Set current user to empty object {} which will set isAuthenticated to false
@@ -119,7 +131,7 @@ export const logoutUser = () => dispatch => {
 // Log instructor out
 export const logoutInstructor = () => dispatch => {
   // Remove token from local storage
-  localStorage.removeItem("jwtToken");
+  localStorage.removeItem("jwtTokenINS");
   // Remove auth header for future requests
   setAuthToken(false);
   // Set current user to empty object {} which will set isAuthenticated to false

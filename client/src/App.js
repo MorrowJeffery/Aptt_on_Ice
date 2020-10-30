@@ -16,6 +16,7 @@ import UserDashboard from "./components/dashboard/Dashboard-User";
 import InstructorDashboard from "./components/dashboard/Dashboard-Instructor"
 import LoginInstructor from "./components/landing/instructors/login";
 import RegisterInstructor from "./components/landing/instructors/register";
+import addAvail from "./components/reservations/addAvail";
 
 import "./App.css";
 
@@ -53,6 +54,7 @@ class App extends Component {
             <Switch>
               <PrivateRoute exact path="/dashboard" component={UserDashboard} />
               <PrivateRoute exact path="/instructor/dashboard" component={InstructorDashboard} />
+              <PrivateRoute exact path="/instructor/addAvail" component={addAvail} />
             </Switch>
           </div>
         </Router>

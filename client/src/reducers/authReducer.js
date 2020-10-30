@@ -6,7 +6,9 @@ const initialState = {
   isAuthenticated: false,
   user: {},
   instructor: {},
-  loading: false
+  loading: false,
+  isUser: false,
+  isInstructor: false
 };
 
 export default function(state = initialState, action) {
@@ -15,13 +17,15 @@ export default function(state = initialState, action) {
       return {
         ...state,
         isAuthenticated: !isEmpty(action.payload),
-        user: action.payload
+        user: action.payload,
+        isUser: !isEmpty(action.payload)
       };
     case SET_CURRENT_INSTRUCTOR:
       return {
         ...state,
         isAuthenticated: !isEmpty(action.payload),
-        instructor: action.payload
+        instructor: action.payload,
+        isInstructor: !isEmpty(action.payload)
       };
     case USER_LOADING:
       return {
